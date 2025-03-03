@@ -1,22 +1,5 @@
-
-/* 
-Vertices are respresented by an integer from 0 to 77. e.g. 4 represents the vertex (0,4) and 54 is (5,4).
-For each index 0 - 77, insert an array containing all adjacent vertices.
-To do this, add and subtract 12 and 21 from the index, and if it is still withing the board, add it to the array.
-*/
-
-/* 
-To get shortest path given start and end, begin at start and add adjacent vertices to queue.
-Process queue by repeatedly adding adjacent vertices.
-Keep track of "depth" throughout iteration.
-Eventually when end vertex is reached, return depth.
-Also add vertices in path to an array so it can be printed out at the end.
-*/
-
 const vertices = [];
 const moves = [-21, -19, -12, -8, 8, 12, 19, 21];
-
-console.log(vertices);
 
 for (let i = 0; i < 78; i++) {
   const adjacent = [];
@@ -28,7 +11,7 @@ for (let i = 0; i < 78; i++) {
   vertices.push(adjacent);
 }
 
-console.log(vertices);
+console.log(knightMoves(0, 77));
 
 function inBoard(point) {
   if (point > 77) {
@@ -41,4 +24,28 @@ function inBoard(point) {
     return false;
   }
   return true;
+}
+
+function knightMoves(start, end) {
+  const q = [];
+  const visited = [];
+  q.push([start, [start]]);
+  visited.push(start);
+
+  while (q.length > 0) {
+    const [current, path] = q.shift();
+
+    if (current === end) {
+      return { moves: path.length - 1, path };
+    }
+
+    const adjacencyArray = vertices[current];
+
+    adjacencyArray.some((vertex) => {
+      if (!visited.includes(vertex)) {
+        q.push([vertex, [...path, vertex]]);
+        visited.push(vertex);
+      }
+    });
+  }
 }
