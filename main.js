@@ -1,17 +1,38 @@
 const vertices = [];
-const moves = [-21, -19, -12, -8, 8, 12, 19, 21];
+const movesArr = [-21, -19, -12, -8, 8, 12, 19, 21];
 
-for (let i = 0; i < 78; i++) {
-  const adjacent = [];
-  moves.forEach((move) => {
-    if (inBoard(i + move)) {
-      adjacent.push(i + move);
-    }
+function main(start, end) {
+  initializeVertices();
+  const { moves, path } = knightMoves(start, end);
+  console.log(
+    `The shortest path from ${start} to ${end} takes ${moves} move(s):`
+  );
+  path.forEach((vertex) => {
+    console.log(toArray(vertex));
   });
-  vertices.push(adjacent);
 }
 
-console.log(knightMoves(0, 77));
+function toArray(vertexNum) {
+  const x = Math.floor(vertexNum / 10);
+  const y = vertexNum % 10;
+  return [x, y];
+}
+
+function toNum(vertexArr) {
+  return vertexArr[0] * 10 + vertexArr[1];
+}
+
+function initializeVertices() {
+  for (let i = 0; i < 78; i++) {
+    const adjacent = [];
+    movesArr.forEach((move) => {
+      if (inBoard(i + move)) {
+        adjacent.push(i + move);
+      }
+    });
+    vertices.push(adjacent);
+  }
+}
 
 function inBoard(point) {
   if (point > 77) {
@@ -27,6 +48,8 @@ function inBoard(point) {
 }
 
 function knightMoves(start, end) {
+  start = toNum(start);
+  end = toNum(end);
   const q = [];
   const visited = [];
   q.push([start, [start]]);
@@ -49,3 +72,5 @@ function knightMoves(start, end) {
     });
   }
 }
+
+main([0, 0], [7, 7]);
