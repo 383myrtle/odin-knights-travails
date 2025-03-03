@@ -17,4 +17,7 @@ function toArray(vertexNum) {
   return [x, y];
 }
 
-main([0, 0], [7, 7]);
+const start = [parseInt(process.argv[2]), parseInt(process.argv[3])];
+const end = [parseInt(process.argv[4]), parseInt(process.argv[5])];
+
+main(start, end)
